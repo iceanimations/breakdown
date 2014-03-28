@@ -1,9 +1,9 @@
 from site import addsitedir as asd
 import pymel.core as pc
 asd(r"r:/Pipe_Repo/Users/Hussain/utilities/TACTIC")
-asd(r"d:/user_files/hussain.parsaiyan/Documents/trunk/work/tactic")
 import util
 reload(util)
+import pymel.core as pc
 import os.path as op
 def get_snapshot_list(project):
     return util.get_project_snapshots(project)
@@ -58,5 +58,6 @@ def check_scene(proj):
     return status
 
 def change_ref(node, newPath):
+    node = pc.PyNode(node)
     return node.load(newFile = newPath)
 
