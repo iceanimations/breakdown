@@ -37,6 +37,12 @@ class Breakdown(Form, Base):
         
         self.setProjectBox()
         
+        import site
+        # update the database, how many times this app is used
+        site.addsitedir(r'r:/pipe_repo/users/qurban')
+        import appUsageApp
+        appUsageApp.updateDatabase('Breakdown')
+        
     def setProjectBox(self):
         projs = util.get_all_projects()
         for project in projs:
