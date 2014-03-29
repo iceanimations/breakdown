@@ -27,6 +27,7 @@ class Breakdown(Form, Base):
         self.greenIcon = QIcon(osp.join(iconPath, 'green.png'))
         self.itemsBox = self.addScroller('All References')
         self.projects = {}
+        self.refreshButton.setIcon(QIcon(osp.join(iconPath, 'refresh.png')))
         
         self.projectsBox.activated.connect(self.addItems)
         self.refreshButton.clicked.connect(self.refresh)
@@ -92,7 +93,8 @@ class Breakdown(Form, Base):
     
     def selectAll(self):
         if not self.redItems:
-            pc.warning('No Red Items found...')
+            pc.warning('No Red Item found...')
+            self.selectAllButton.setChecked(False)
         for item in self.redItems:
             item.setChecked(self.selectAllButton.isChecked())
         
@@ -106,6 +108,10 @@ class Breakdown(Form, Base):
             self.selectAllButton.setChecked(flag)
     
     def filterRed(self):
+        if not self.redItems:
+            pc.warning('No Red Item found...')
+            self.filterButton.setChecked(False)
+            return
         for item in self.itemsBox.items():
             if item not in self.redItems:
                 item.setVisible(not self.filterButton.isChecked())
