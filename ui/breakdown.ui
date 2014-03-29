@@ -35,7 +35,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="filterRedButton">
+       <widget class="QCheckBox" name="filterButton">
         <property name="toolTip">
          <string>Show only out of date references</string>
         </property>

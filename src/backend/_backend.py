@@ -1,9 +1,9 @@
 from site import addsitedir as asd
 import pymel.core as pc
 asd(r"r:/Pipe_Repo/Users/Hussain/utilities/TACTIC")
+asd(r"d:/user_files/hussain.parsaiyan/Documents/trunk/work/tactic")
 import util
 reload(util)
-import pymel.core as pc
 import os.path as op
 def get_snapshot_list(project):
     return util.get_project_snapshots(project)
@@ -15,7 +15,6 @@ def map_filename_to_snapshot(snaps):
     for snap in snaps:
         
         f_to_snap[op.normpath(util.filename_from_snap(snap, mode = 'client_repo')).lower()] = snap
-    util.pretty_print(f_to_snap.keys())
     return f_to_snap
 
 def reference_paths():
@@ -44,7 +43,7 @@ def check_scene(proj):
         search_type = cur_snap['search_type'].lower()
         version = cur_snap['version']
         search_code = cur_snap['search_code']
-        status[refs[ref]] = False
+        status[ref] = False
         for snap in snaps:
             
             if (process == snap['process'].lower() and
@@ -52,12 +51,11 @@ def check_scene(proj):
                 search_type == snap['search_type'].lower() and
                 search_code == snap['search_code']):
                 if snap['version'] > version:
-                    status[refs[ref]] = util.filename_from_snap(snap, mode = 'client_repo')
+                    status[ref] = util.filename_from_snap(snap, mode = 'client_repo')
                     version = snap['version']
                     
     return status
 
 def change_ref(node, newPath):
-    node = pc.PyNode(node)
     return node.load(newFile = newPath)
 
