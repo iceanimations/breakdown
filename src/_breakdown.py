@@ -6,7 +6,7 @@ import os.path as osp
 import backend
 reload(backend)
 be = backend.be
-import util
+import app.util as util
 reload(util)
 from customui import ui as cui
 reload(cui)

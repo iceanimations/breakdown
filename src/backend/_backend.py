@@ -1,9 +1,8 @@
 from site import addsitedir as asd
 asd(r"r:/Pipe_Repo/Users/Hussain/utilities/TACTIC")
 asd(r"d:/user_files/hussain.parsaiyan/Documents/trunk/work/tactic")
-
+import app.util as util
 from imaya import FileInfo as fi
-import util
 reload(util)
 
 
