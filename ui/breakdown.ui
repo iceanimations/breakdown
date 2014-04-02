@@ -30,35 +30,22 @@
       <item>
        <widget class="QCheckBox" name="selectAllButton">
         <property name="toolTip">
-         <string>Select all out of date references</string>
+         <string>Select all outdated references</string>
         </property>
         <property name="text">
-         <string>Select All Red</string>
+         <string>Select All</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QCheckBox" name="filterButton">
         <property name="toolTip">
-         <string>Show only out of date references</string>
+         <string>Show only outdated references</string>
         </property>
         <property name="text">
-         <string>Filter Red</string>
+         <string>Filter</string>
         </property>
        </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </item>

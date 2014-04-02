@@ -28,6 +28,8 @@ class Breakdown(Form, Base):
         self.itemsBox = self.addScroller('All References')
         self.projects = {}
         self.refreshButton.setIcon(QIcon(osp.join(iconPath, 'refresh.png')))
+        self.selectAllButton.setIcon(QIcon(osp.join(iconPath, 'red.png')))
+        self.filterButton.setIcon(QIcon(osp.join(iconPath, 'red.png')))
         
         self.projectsBox.activated.connect(self.addItems)
         self.refreshButton.clicked.connect(self.refresh)
