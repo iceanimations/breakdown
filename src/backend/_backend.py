@@ -21,7 +21,6 @@ def map_filename_to_snapshot(snaps):
     f_to_snap = {}
     
     for snap in snaps:
-        print snap
         f_to_snap[op.normpath(
             util.filename_from_snap(snap,
                                     mode = 'client_repo')).lower()
