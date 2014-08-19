@@ -142,9 +142,6 @@ class Breakdown(Form, Base):
     
     def closeEvent(self, event):
         self.deleteLater()
-    
-    def hideEvent(self, event):
-        self.close()
         
     def button(self, icon):
         button = QCheckBox(self)
