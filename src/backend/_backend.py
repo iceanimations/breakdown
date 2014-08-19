@@ -3,6 +3,7 @@ asd(r"r:/Pipe_Repo/Users/Hussain/utilities/TACTIC")
 asd(r"d:/user_files/hussain.parsaiyan/Documents/trunk/work/tactic")
 import app.util as util
 from imaya import FileInfo as fi
+import imaya as mi
 reload(util)
 
 
@@ -13,7 +14,7 @@ import json
 def get_snapshot_list(assets):
     snaps = []
     map(snaps.extend, map(util.get_snapshot_from_sobject,
-                         assets))
+                          assets))
     return snaps
 
 def map_filename_to_snapshot(snaps):
@@ -27,18 +28,9 @@ def map_filename_to_snapshot(snaps):
                   ] = snap
     return f_to_snap
 
-def reference_paths():
-    '''
-    @return: {refNode: path} of all level one scene references
-    '''
-    refs = {}
-    for ref in pc.listReferences():
-        refs[ref] = str(ref.path)
-    return refs
-
 def check_scene(proj):
 
-    refs = reference_paths()
+    refs = mi.get_reference_paths()
 
     # {ref_node: False(if ref stale)|path of upto date}
     status = {}
@@ -69,7 +61,7 @@ def check_scene(proj):
                     version = snap['version']
                     
     return status
-
+ 
 def retrieve_assets():
     '''
     @return: list of TACTIC asset search keys
@@ -95,12 +87,8 @@ def retrieve_assets():
             project_code = asset.get('project_code')))
     return assets
 
-
-
 def change_ref(node, newPath):
     return node.load(newFile = newPath)
-
-
 
 
 
