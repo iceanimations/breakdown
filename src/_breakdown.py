@@ -14,6 +14,7 @@ reload(util)
 from customui import ui as cui
 reload(cui)
 import pymel.core as pc
+import time
 
 rootPath = osp.dirname(osp.dirname(__file__))
 uiPath = osp.join(rootPath, 'ui')
