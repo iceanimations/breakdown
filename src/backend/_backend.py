@@ -7,7 +7,6 @@ import imaya as mi
 reload(util)
 
 
-import pymel.core as pc
 import os.path as op
 import json
 
@@ -20,12 +19,14 @@ def get_snapshot_list(assets):
 def map_filename_to_snapshot(snaps):
 
     f_to_snap = {}
-    
+
     for snap in snaps:
-        f_to_snap[op.normpath(
-            util.filename_from_snap(snap,
-                                    mode = 'client_repo')).lower()
-                  ] = snap
+
+        try:
+            filename = util.filename_from_snap(snap, mode = 'client_repo')
+        except:
+            pass
+        f_to_snap[op.normpath(filename).lower()] = snap
     return f_to_snap
 
 def check_scene(proj):
@@ -34,9 +35,9 @@ def check_scene(proj):
 
     # {ref_node: False(if ref stale)|path of upto date}
     status = {}
-    
+
     assets = retrieve_assets()
-    
+
     snaps = get_snapshot_list(assets)
     snap_files = map_filename_to_snapshot(snaps)
 
@@ -50,8 +51,8 @@ def check_scene(proj):
         version = cur_snap['version']
         search_code = cur_snap['search_code']
         status[ref] = False
+
         for snap in snaps:
-            
             if (process == snap['process'].lower() and
                 context == snap['context'].lower() and
                 search_type == snap['search_type'].lower() and
@@ -59,9 +60,9 @@ def check_scene(proj):
                 if snap['version'] > version:
                     status[ref] = util.filename_from_snap(snap, mode = 'client_repo')
                     version = snap['version']
-                    
+
     return status
- 
+
 def retrieve_assets():
     '''
     @return: list of TACTIC asset search keys
@@ -69,18 +70,18 @@ def retrieve_assets():
 
     # assets list to be returned
     assets = []
-    
+
     # tactic fileInfo dict
     raw_tactic = fi.get('TACTIC')
     if raw_tactic:
         tactic = json.loads(raw_tactic)
     else:
         return assets
-    
+
     server = util.get_server()
-        
+
     for asset in tactic.get('assets'):
-        
+
         assets.append(server.build_search_key(
             asset.get('search_type'),
             asset.get('search_code'),
