@@ -21,7 +21,7 @@ class Breakdown(Form, Base):
     def __init__(self, parent=qtfy.getMayaWindow()):
         super(Breakdown, self).__init__(parent)
         self.setupUi(self)
-        
+
         self.redItems = []
         self.redIcon = QIcon(osp.join(iconPath, 'red.png'))
         self.greenIcon = QIcon(osp.join(iconPath, 'green.png'))
@@ -30,27 +30,26 @@ class Breakdown(Form, Base):
         self.refreshButton.setIcon(QIcon(osp.join(iconPath, 'refresh.png')))
         self.selectAllButton.setIcon(QIcon(osp.join(iconPath, 'red.png')))
         self.filterButton.setIcon(QIcon(osp.join(iconPath, 'red.png')))
-        
+
         self.projectsBox.activated.connect(self.addItems)
         self.refreshButton.clicked.connect(self.refresh)
         self.updateButton.clicked.connect(self.update)
         self.selectAllButton.clicked.connect(self.selectAll)
         self.filterButton.clicked.connect(self.filterRed)
-        
         self.setProjectBox()
-        
+
         import site
         # update the database, how many times this app is used
-        site.addsitedir(r'r:/pipe_repo/users/qurban')
+        site.addsitedir(r'R:/pipe_repo/users/qurban')
         import appUsageApp
         appUsageApp.updateDatabase('Breakdown')
-        
+
     def setProjectBox(self):
         projs = util.get_all_projects()
         for project in projs:
             self.projects[project['title']] = project['code']
             self.projectsBox.addItem(project['title'])
-        
+
     def addItems(self):
         project = str(self.projectsBox.currentText())
         if project == '--Select Project--':
@@ -72,20 +71,20 @@ class Breakdown(Form, Base):
             self.itemsBox.addItem(item)
             item.setObjectName(str(ref.path) +'>'+ refNode + str('>'+ refs[ref]) if refs[ref] else '')
         map(lambda widget: self.bindClickEvent(widget), self.itemsBox.items())
-        
+
     def bindClickEvent(self, widget):
         widget.mouseReleaseEvent = lambda event: self.handleItemClick(event, widget)
-        
+
     def handleItemClick(self, event, widget):
         if event.button() == Qt.LeftButton:
             widget.setChecked(not widget.isChecked())
             self.handleSelectAllButton()
-            
+
     def referenceNodeAndPath(self, widget):
         data = str(widget.objectName())
         path, refNode, newPath = data.split('>')
-        return pc.system.FileReference(pathOrRefNode=path, refnode=refNode), newPath 
-    
+        return pc.system.FileReference(pathOrRefNode=path, refnode=refNode), newPath
+
     def createItem(self, title, btn, subTitle='', thirdTitle='', detail=''):
         item = cui.Item(self)
         item.setTitle(title)
@@ -94,18 +93,18 @@ class Breakdown(Form, Base):
         item.setDetail(detail)
         item.addWidget(btn)
         return item
-    
+
     def clearItems(self):
         self.itemsBox.clearItems()
         del self.redItems[:]
-    
+
     def selectAll(self):
         if not self.redItems:
             pc.warning('No Red Item found...')
             self.selectAllButton.setChecked(False)
         for item in self.redItems:
             item.setChecked(self.selectAllButton.isChecked())
-        
+
     def handleSelectAllButton(self):
         flag = True
         for item in self.redItems:
@@ -114,7 +113,7 @@ class Breakdown(Form, Base):
                 break
         if self.redItems:
             self.selectAllButton.setChecked(flag)
-    
+
     def filterRed(self):
         if not self.redItems:
             pc.warning('No Red Item found...')
@@ -123,7 +122,7 @@ class Breakdown(Form, Base):
         for item in self.itemsBox.items():
             if item not in self.redItems:
                 item.setVisible(not self.filterButton.isChecked())
-    
+
     def update(self):
         flag = False
         for widget in self.redItems:
@@ -132,17 +131,17 @@ class Breakdown(Form, Base):
                 be.change_ref(node, newPath)
                 flag = True
         if flag: self.refresh()
-    
+
     def refresh(self):
         self.clearItems()
         self.addItems()
         self.selectAllButton.setChecked(False)
         self.filterButton.setChecked(False)
         self.itemsBox.searchBox.clear()
-    
+
     def closeEvent(self, event):
         self.deleteLater()
-        
+
     def button(self, icon):
         button = QCheckBox(self)
         button.setIcon(icon)
