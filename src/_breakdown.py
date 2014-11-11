@@ -1,6 +1,9 @@
+import site
+site.addsitedir('R:/Pipe_Reop/Users/Qurban/utilities')
+import appUsageApp
 from uiContainer import uic
 from PyQt4.QtGui import *
-from PyQt4.QtCore import Qt
+from PyQt4.QtCore import *
 import qtify_maya_window as qtfy
 import os.path as osp
 import backend
@@ -31,6 +34,9 @@ class Breakdown(Form, Base):
         self.selectAllButton.setIcon(QIcon(osp.join(iconPath, 'red.png')))
         self.filterButton.setIcon(QIcon(osp.join(iconPath, 'red.png')))
         
+        self.testButton.hide()
+        self.testButton.released.connect(self.updateThumb)
+        
         self.projectsBox.activated.connect(self.addItems)
         self.refreshButton.clicked.connect(self.refresh)
         self.updateButton.clicked.connect(self.update)
@@ -39,11 +45,13 @@ class Breakdown(Form, Base):
         
         self.setProjectBox()
         
-        import site
-        # update the database, how many times this app is used
-        site.addsitedir(r'r:/pipe_repo/users/qurban')
-        import appUsageApp
+        self.thread = Thread(self)
+        self.thread.start()
+        
         appUsageApp.updateDatabase('Breakdown')
+    
+    def updateThumb(self):
+        self.itemsBox.scrolled(None)
         
     def setProjectBox(self):
         projs = util.get_all_projects()
@@ -141,6 +149,7 @@ class Breakdown(Form, Base):
         self.itemsBox.searchBox.clear()
     
     def closeEvent(self, event):
+        self.thread.terminate()
         self.deleteLater()
         
     def button(self, icon):
@@ -153,3 +162,13 @@ class Breakdown(Form, Base):
         scroller.setTitle(title)
         self.scrollerLayout.addWidget(scroller)
         return scroller
+    
+class Thread(QThread):
+    def __init__(self, parent=None):
+        super(Thread, self).__init__(parent)
+        self.parentWin = parent
+         
+    def run(self):
+        while 1:
+            self.parentWin.testButton.released.emit()
+            time.sleep(2)

@@ -107,6 +107,13 @@
        </spacer>
       </item>
       <item>
+       <widget class="QPushButton" name="testButton">
+        <property name="text">
+         <string>test</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="updateButton">
         <property name="minimumSize">
          <size>
@@ -148,7 +155,7 @@
      <x>0</x>
      <y>0</y>
      <width>381</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
