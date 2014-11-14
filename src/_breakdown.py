@@ -65,6 +65,7 @@ class Breakdown(Form, Base):
             return
         refs = be.check_scene(self.projects[project])
         for ref in refs:
+            print type(ref)
             refNode = str(ref.refNode)
             if refs[ref]:
                 item = self.createItem(osp.basename(ref.path),
@@ -151,6 +152,7 @@ class Breakdown(Form, Base):
     def closeEvent(self, event):
         self.thread.terminate()
         self.deleteLater()
+        del self
 
     def button(self, icon):
         button = QCheckBox(self)
