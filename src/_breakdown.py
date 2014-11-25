@@ -30,6 +30,7 @@ class Breakdown(Form, Base):
         self.redIcon = QIcon(osp.join(iconPath, 'red.png'))
         self.greenIcon = QIcon(osp.join(iconPath, 'green.png'))
         self.itemsBox = self.addScroller('All References')
+        self.itemsBox.versionsButton.hide()
         self.projects = {}
         self.refreshButton.setIcon(QIcon(osp.join(iconPath, 'refresh.png')))
         self.selectAllButton.setIcon(QIcon(osp.join(iconPath, 'red.png')))
