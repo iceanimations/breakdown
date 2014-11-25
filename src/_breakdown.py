@@ -38,8 +38,8 @@ class Breakdown(Form, Base):
 
         self.testButton.hide()
         self.testButton.released.connect(self.updateThumb)
-        
-        self.projectsBox.activated.connect(self.addItems)
+
+        self.projectsBox.activated.connect(self.refresh)
         self.refreshButton.clicked.connect(self.refresh)
         self.updateButton.clicked.connect(self.update)
         self.selectAllButton.clicked.connect(self.selectAll)
@@ -48,12 +48,12 @@ class Breakdown(Form, Base):
 
         self.thread = Thread(self)
         self.thread.start()
-        
+
         appUsageApp.updateDatabase('Breakdown')
-        
+
     def updateThumb(self):
         self.itemsBox.scrolled(None)
-        
+
     def setProjectBox(self):
         projs = util.get_all_projects()
         for project in projs:
@@ -164,11 +164,12 @@ class Breakdown(Form, Base):
         scroller.setTitle(title)
         self.scrollerLayout.addWidget(scroller)
         return scroller
+
 class Thread(QThread):
     def __init__(self, parent=None):
         super(Thread, self).__init__(parent)
         self.parentWin = parent
-         
+
     def run(self):
         while 1:
             self.parentWin.testButton.released.emit()
