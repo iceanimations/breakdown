@@ -23,7 +23,7 @@ def get_snapshot_list(assets):
 def map_filename_to_snapshot(snaps):
 
     f_to_snap = {}
-    
+
     for snap in snaps:
         try:
             filename = op.normpath(
@@ -40,9 +40,9 @@ def check_scene_old(proj):
 
     # {ref_node: False(if ref stale)|path of upto date}
     status = {}
-    
+
     assets = retrieve_assets()
-    
+
     snaps = get_snapshot_list(assets)
     snap_files = map_filename_to_snapshot(snaps)
 
@@ -57,7 +57,7 @@ def check_scene_old(proj):
         search_code = cur_snap['search_code']
         status[ref] = False
         for snap in snaps:
-            
+
             if (process == snap['process'].lower() and
                 context == snap['context'].lower() and
                 search_type == snap['search_type'].lower() and
@@ -69,9 +69,9 @@ def check_scene_old(proj):
                         version = snap['version']
                     except IndexError:
                         continue
-                    
+
     return status
- 
+
 def check_scene(proj):
 
     status = {}
@@ -128,18 +128,18 @@ def retrieve_assets():
 
     # assets list to be returned
     assets = []
-    
+
     # tactic fileInfo dict
     raw_tactic = fi.get('TACTIC')
     if raw_tactic:
         tactic = json.loads(raw_tactic)
     else:
         return assets
-    
+
     server = util.get_server()
-        
+
     for asset in tactic.get('assets'):
-        
+
         assets.append(server.build_search_key(
             asset.get('search_type'),
             asset.get('search_code'),
